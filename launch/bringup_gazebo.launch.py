@@ -23,7 +23,7 @@ def generate_launch_description():
         DeclareLaunchArgument('x',     default_value='0',           description='Location x'),
         DeclareLaunchArgument('y',     default_value='0',           description='Location y'),
         DeclareLaunchArgument('z',     default_value='0',           description='Location z'),
-        DeclareLaunchArgument('gui',   default_value='true',        description='Start RViz2'),
+        DeclareLaunchArgument('gui',   default_value='false',        description='Start RViz2'),
         DeclareLaunchArgument('rt_host', default_value='192.168.137.50', description='ROBOT_RT_IP'),
     ]
 
