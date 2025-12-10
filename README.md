@@ -22,6 +22,39 @@ Doosan E0509 로봇팔과 ROBOTIS RH-P12-RN-A 그리퍼를 결합한 ROS2 패키
 - [doosan-robot2](https://github.com/doosan-robotics/doosan-robot2)
 - [RH-P12-RN-A](https://github.com/ROBOTIS-GIT/RH-P12-RN-A)
 
+## Docker 설치 (Virtual Mode 필수)
+
+Virtual mode 에뮬레이터 사용을 위해 Docker가 필요합니다.
+
+### 1. Docker 설치
+```bash
+# Docker 공식 설치 (https://docs.docker.com/engine/install/ubuntu/)
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# 현재 사용자를 docker 그룹에 추가 (재로그인 필요)
+sudo usermod -aG docker $USER
+```
+
+### 2. 에뮬레이터 설치
+```bash
+cd ~/doosan_ws/src/doosan-robot2
+chmod +x ./install_emulator.sh
+sudo ./install_emulator.sh
+```
+
+
 ## 사전 설정
 
 `~/.bashrc`에 다음 내용 추가:
