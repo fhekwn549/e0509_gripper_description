@@ -318,6 +318,7 @@ python3 digital_twin_bridge.py
 ```
 
 **터미널 3: Isaac Sim 디지털 트윈** (CoWriteBotRL 레포 필요)
+[CoWriteBotRL](https://github.com/KERNEL3-2/CoWriteBotRL)
 ```bash
 source ~/isaacsim_env/bin/activate
 cd ~/CoWriteBotRL
