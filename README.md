@@ -363,6 +363,9 @@ python3 gripper.py open
 
 # 그리퍼 닫기
 python3 gripper.py close
+
+# 그리퍼 특정 위치 (0=열림, 700=닫힘)
+python3 gripper.py pos 350
 ```
 
 ### 동작 원리
