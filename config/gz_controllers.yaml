@@ -34,3 +34,6 @@
   ros__parameters:
     joints:
       - gripper_rh_r1
+      - gripper_rh_r2
+      - gripper_rh_l1
+      - gripper_rh_l2

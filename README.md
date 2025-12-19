@@ -247,6 +247,52 @@ ros2 launch e0509_gripper_description bringup_gazebo.launch.py mode:=virtual hos
 
 ---
 
+## Digital Twin (실제 로봇 + Gazebo 동기화)
+
+**실제 로봇**과 **Gazebo**를 동기화하여 디지털 트윈을 구현합니다.
+실제 로봇을 제어하면 Gazebo의 로봇이 동일하게 따라갑니다.
+
+### 특징
+- 실제 로봇 <-> Gazebo 실시간 동기화
+- 로봇팔 + 그리퍼 모두 지원 (10축)
+- 한 번의 launch로 모든 것 실행
+
+### 실행 방법
+
+```bash
+ros2 launch e0509_gripper_description bringup_real_gazebo.launch.py mode:=real host:=<로봇IP> rviz:=false
+```
+
+> RViz도 함께 보려면 `rviz:=true` (기본값)
+
+### 로봇 제어
+
+```bash
+# 조인트 이동 (단위: degree)
+ros2 service call /dsr01/motion/move_joint dsr_msgs2/srv/MoveJoint "{pos: [0.0, 0.0, 90.0, 0.0, 90.0, 0.0], vel: 30.0, acc: 30.0, time: 0.0, radius: 0.0, mode: 0, blend_type: 0, sync_type: 0}"
+
+# 그리퍼 열기
+ros2 service call /dsr01/gripper/open std_srvs/srv/Trigger
+
+# 그리퍼 닫기
+ros2 service call /dsr01/gripper/close std_srvs/srv/Trigger
+```
+
+### 동작 원리
+```
+[실제 로봇] → [/dsr01/joint_states] → [gazebo_bridge.py] → [Gazebo Controllers]
+```
+
+### Launch 파라미터
+| 파라미터 | 기본값 | 설명 |
+|---------|--------|------|
+| `host` | 192.168.137.100 | 로봇 IP 주소 |
+| `mode` | real | real 또는 virtual |
+| `rviz` | true | RViz 실행 여부 |
+| `gazebo_ns` | gz | Gazebo 네임스페이스 |
+
+---
+
 ## Digital Twin (실제 로봇 + Isaac Sim + RViz 동기화)
 
 **실제 로봇**, **RViz**, **Isaac Sim** 세 곳에서 로봇을 동시에 동기화하여 제어합니다.
@@ -394,11 +440,13 @@ e0509_gripper_description/
 │   ├── display.launch.py            # RViz 시각화
 │   ├── bringup.launch.py            # Virtual/Real 로봇 실행
 │   ├── bringup_gazebo.launch.py     # Gazebo + RViz 시뮬레이션
+│   ├── bringup_real_gazebo.launch.py # 실제로봇 + Gazebo 디지털트윈
 │   └── gazebo.launch.py             # Gazebo 전용
 ├── scripts/
-│   ├── gripper_joint_publisher.py   # RViz 시각화용 그리퍼 컨트롤러
+│   ├── gripper_joint_publisher.py   # 통합 조인트 상태 발행 (arm + gripper)
 │   ├── gripper.py                   # 실제 그리퍼 제어 CLI (Modbus RTU)
 │   ├── gripper_service_node.py      # 그리퍼 ROS2 서비스 노드
+│   ├── gazebo_bridge.py             # Gazebo 디지털트윈 브릿지
 │   ├── digital_twin_bridge.py       # Isaac Sim 연동용 ROS2 브릿지
 │   ├── robot_slider_control.py      # TCP 슬라이더 제어 GUI
 │   └── sim2real/                    # Hand-Eye Calibration

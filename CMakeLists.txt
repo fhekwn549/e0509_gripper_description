@@ -21,6 +21,7 @@ install(PROGRAMS
   scripts/gripper_joint_publisher.py
   scripts/gripper.py
   scripts/gripper_service_node.py
+  scripts/gazebo_bridge.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
