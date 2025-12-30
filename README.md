@@ -152,7 +152,7 @@ ros2 topic pub /dsr01/gripper/position_cmd std_msgs/msg/Int32 "{data: 350}" --on
 
 ### 1. 실제 로봇 실행
 ```bash
-ros2 launch e0509_gripper_description bringup.launch.py mode:=real host:=<로봇IP>
+ros2 launch e0509_gripper_description bringup.launch.py mode:=real host:=<robot_ip>
 ```
 
 ### 2. 로봇팔 제어 (MoveJoint 서비스)
@@ -314,7 +314,7 @@ ros2 service call /dsr01/gripper/close std_srvs/srv/Trigger
 
 **터미널 1: 실제 로봇 Bringup**
 ```bash
-ros2 launch e0509_gripper_description bringup.launch.py mode:=real host:=<로봇IP>
+ros2 launch e0509_gripper_description bringup.launch.py mode:=real host:=<robot_ip>
 ```
 > Virtual 모드의 경우: `mode:=virtual`
 
@@ -359,33 +359,7 @@ ros2 topic pub /dsr01/gripper/position_cmd std_msgs/msg/Int32 "{data: 350}" --on
                     [digital_twin.py (Isaac Sim)]
 ```
 
----
 
-## Eye-to-Hand Calibration
-
-카메라가 외부에 고정된 Eye-to-Hand 구조에서 카메라 → 로봇 베이스 변환 행렬을 계산합니다.
-
-> **참고**: 캘리브레이션 및 Sim2Real 실행 코드는 [sim2real 레포](https://github.com/fhekwn549/sim2real)로 이동했습니다.
-> 자세한 가이드는 [SIM2REAL_GUIDE.md](https://github.com/fhekwn549/sim2real/blob/main/sim2real/SIM2REAL_GUIDE.md)를 참조하세요.
-
-### 구조
-```
-[카메라 (고정)] ──(T_cam2base)──> [로봇 베이스]
-                                      ↑
-                              [TCP/그리퍼]
-```
-
-### 간단 실행
-```bash
-# 터미널 1: 로봇 연결
-ros2 launch e0509_gripper_description bringup.launch.py mode:=real host:=192.168.137.100
-
-# 터미널 2: 캘리브레이션 (sim2real 레포)
-cd ~/sim2real/sim2real
-python3 calibrate_eye_to_hand.py
-```
-
----
 
 ## 파일 구조
 ```
